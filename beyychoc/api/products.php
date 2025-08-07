@@ -17,7 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['test'])) {
     exit;
 }
 
-$pdo = getDBConnection();
+try {
+    $pdo = getDBConnection();
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => 'Database connection failed: ' . $e->getMessage()]);
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
@@ -94,15 +100,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     try {
         $stmt = $pdo->prepare("
-            INSERT INTO products (name, category, product_code, price, weight, description, image_path) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO products (name, category, product_code, weight, description, image_path) 
+            VALUES (?, ?, ?, ?, ?, ?)
         ");
         
         $result = $stmt->execute([
             $input['name'],
             $input['category'],
             $input['product_code'],
-            $input['price'] ?? 0.00,
             $input['weight'] ?? null,
             $input['description'] ?? '',
             $input['image_path']
@@ -144,11 +149,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     try {
         // Check if image_path is provided for update
         if (isset($input['image_path']) && !empty($input['image_path'])) {
-            $stmt = $pdo->prepare("UPDATE products SET name=?, category=?, price=?, product_code=?, weight=?, description=?, image_path=? WHERE id=?");
+            $stmt = $pdo->prepare("UPDATE products SET name=?, category=?, product_code=?, weight=?, description=?, image_path=? WHERE id=?");
             $stmt->execute([
                 $input['name'],
                 $input['category'],
-                $input['price'],
                 $input['product_code'],
                 $input['weight'] ?? null,
                 $input['description'] ?? '',
@@ -156,11 +160,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                 $input['id']
             ]);
         } else {
-            $stmt = $pdo->prepare("UPDATE products SET name=?, category=?, price=?, product_code=?, weight=?, description=? WHERE id=?");
+            $stmt = $pdo->prepare("UPDATE products SET name=?, category=?, product_code=?, weight=?, description=? WHERE id=?");
             $stmt->execute([
                 $input['name'],
                 $input['category'],
-                $input['price'],
                 $input['product_code'],
                 $input['weight'] ?? null,
                 $input['description'] ?? '',

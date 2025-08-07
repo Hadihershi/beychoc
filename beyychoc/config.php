@@ -7,10 +7,10 @@ $password   = "";
 $dbname     = "beyychoc_db";
 
 // For production (InfinityFree)
-// $servername = "sql300.infinityfree.com";
-// $username   = "if0_39649803";
-// $password   = "hYaBFuOBg187r";
-// $dbname     = "if0_39649803_beyychoc_db";
+// $servername = "sql212.infinityfree.com";
+// $username   = "if0_39655422";
+// $password   = "hv2RxhdMVUHf1c";
+// $dbname     = "if0_39655422_beyychoc";
 
 define('DB_HOST', $servername);
 define('DB_NAME', $dbname);
@@ -32,7 +32,7 @@ function getDBConnection() {
                 ]
             );
         } catch (PDOException $e) {
-            die("Database connection failed: " . $e->getMessage());
+            throw new Exception("Database connection failed: " . $e->getMessage());
         }
     }
     return $pdo;

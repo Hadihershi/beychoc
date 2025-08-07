@@ -249,10 +249,10 @@ function displayProducts(products) {
             <div class="product-card">
                 <img src="${product.image_path}" alt="${product.name}" class="product-image">
                 <div class="product-info">
-                    <h3 class="product-name">${product.name}</h3>
-                    <p class="product-code">Code: ${product.product_code}</p>
-                    <p class="product-description">${product.description || ''}</p>
-                    <div class="product-details">
+                    <div class="product-info-grid">
+                        <h3 class="product-name">${product.name}</h3>
+                        <p class="product-code">Code: ${product.product_code}</p>
+                        <p class="product-description">${product.description || ''}</p>
                     </div>
                     <button class="view-product-btn btn btn-primary" onclick="viewProduct(${JSON.stringify(product).replace(/"/g, '&quot;')})">
                         <i class="fas fa-eye me-2"></i>View Details
@@ -310,7 +310,6 @@ async function handleAddProduct(e) {
         name: document.getElementById('productName').value,
         category: category,
         product_code: document.getElementById('productCode').value,
-        price: parseFloat(document.getElementById('productPrice').value) || 0.00,
         weight: category === 'packages' ? null : (document.getElementById('productWeight').value || null),
         description: document.getElementById('productDescription').value,
         image_path: imagePath
@@ -398,7 +397,6 @@ function openEditProductModal(product) {
     document.getElementById('editProductName').value = product.name;
     document.getElementById('editProductCategory').value = product.category;
     document.getElementById('editProductCode').value = product.product_code;
-    document.getElementById('editProductPrice').value = product.price;
     document.getElementById('editProductWeight').value = product.weight || '';
     document.getElementById('editProductDescription').value = product.description || '';
     
@@ -456,7 +454,6 @@ async function handleEditProduct() {
         name: document.getElementById('editProductName').value,
         category: category,
         product_code: document.getElementById('editProductCode').value,
-        price: parseFloat(document.getElementById('editProductPrice').value) || 0.00,
         weight: category === 'packages' ? null : (document.getElementById('editProductWeight').value || null),
         description: document.getElementById('editProductDescription').value
     };
@@ -606,7 +603,7 @@ async function handleSearch() {
 }
 
 function validateForm() {
-    const requiredFields = ['productName', 'productCategory', 'productCode', 'productPrice'];
+    const requiredFields = ['productName', 'productCategory', 'productCode'];
     let isValid = true;
     
     requiredFields.forEach(fieldId => {
@@ -652,6 +649,7 @@ function viewProduct(product) {
                             <div class="col-md-6">
                                 <h4 class="product-modal-name">${product.name}</h4>
                                 <p class="product-modal-code text-muted">Product Code: ${product.product_code}</p>
+
                                 <p class="product-modal-category">
                                     <strong>Category:</strong> 
                                     <span class="badge bg-primary">${product.category}</span>

@@ -16,11 +16,11 @@ const API_CONFIG = {
         productsURL: 'https://your-backend-domain.000webhostapp.com/api/products.php'
     },
     
-    // For InfinityFree backend
+    // For live website backend
     infinityfree: {
-        baseURL: 'https://beyychoc.infinityfreeapp.com/api',
-        uploadURL: 'https://beyychoc.infinityfreeapp.com/api/upload.php',
-        productsURL: 'https://beyychoc.infinityfreeapp.com/api/products.php'
+        baseURL: 'https://beychoc.wuaze.com/api',
+        uploadURL: 'https://beychoc.wuaze.com/api/upload.php',
+        productsURL: 'https://beychoc.wuaze.com/api/products.php'
     }
 };
 
